@@ -1,8 +1,8 @@
 
 {
   "name": "react-native-google-appauth",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "This is a react native library to integrate google sign in with youtube brand account.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
