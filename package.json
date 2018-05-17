@@ -10,9 +10,14 @@
   "keywords": [
     "react-native"
   ],
-  "author": "",
-  "license": "",
+  "author": "Sumanta Bhui, Mukesh Sharma",
+  "license": "MIT",
   "peerDependencies": {
     "react-native": "^0.41.2"
+  },
+  "homepage": "https://github.com/bhuisumanta/react-native-google-appauth#readme",
+  "bugs": { 
+    "url" : "https://github.com/bhuisumanta/react-native-google-appauth/issues",
+    "email" : "sumanta.bhui@bidchat.com"
   }
 }
