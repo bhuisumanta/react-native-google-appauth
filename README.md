@@ -9,6 +9,26 @@
 
 `$ react-native link react-native-google-appauth`
 
+Add this in your `android/app/src/main/AndroidManifest.xml`
+
+```
+<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity" android:launchMode="singleInstance">
+    <intent-filter>
+        <action android:name="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+    </intent-filter>
+</activity>
+
+<activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="com.bidchat.reactnative.appauth"/>
+    </intent-filter>
+</activity>
+```
+
 ### Manual installation
 
 
@@ -26,7 +46,24 @@
   	```
       compile project(':react-native-google-appauth')
   	```
+4. Add this in your `android/app/src/main/AndroidManifest.xml`
+```
+<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity" android:launchMode="singleInstance">
+    <intent-filter>
+        <action android:name="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+    </intent-filter>
+</activity>
 
+<activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="com.bidchat.reactnative.appauth"/>
+    </intent-filter>
+</activity>
+```
 
 ## Usage
 ```javascript
