@@ -1,4 +1,3 @@
-
 {
   "name": "react-native-google-appauth",
   "version": "1.0.1",
@@ -8,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native", "appAuth", "Google signin", "Youtube signin", "Youtube brand account signin", "Android"
+    "react-native",
+    "appAuth",
+    "Google signin",
+    "Youtube signin",
+    "Youtube brand account signin",
+    "Android"
   ],
   "author": "Sumanta Bhui, Mukesh Sharma",
   "license": "MIT",
@@ -16,8 +20,11 @@
     "react-native": "^0.41.2"
   },
   "homepage": "https://github.com/bhuisumanta/react-native-google-appauth#readme",
-  "bugs": { 
-    "url" : "https://github.com/bhuisumanta/react-native-google-appauth/issues",
-    "email" : "sumanta.bhui@bidchat.com"
+  "bugs": {
+    "url": "https://github.com/bhuisumanta/react-native-google-appauth/issues",
+    "email": "sumanta.bhui@bidchat.com"
+  },
+  "dependencies": {
+    "invariant": "^2.2.4"
   }
 }
