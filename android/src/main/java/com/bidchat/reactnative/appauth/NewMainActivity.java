@@ -46,6 +46,7 @@ import okhttp3.Response;
 public class NewMainActivity extends ReactActivity {
 
   private static final String USED_INTENT = "USED_INTENT";
+  private boolean activityOpened = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,16 @@ public class NewMainActivity extends ReactActivity {
 
   @Override
   protected void onResume() {
-    super.onResume();
-    Log.e("Test", "onResume: ");
+    if(activityOpened == true) {
+      Log.e("Test", "onResume FINISH: ");
+      activityOpened = false;
+      finish();
+      super.onResume();
+    } else {
+      Log.e("Test", "onResume RESUME: ");
+      super.onResume();
+      activityOpened = true;
+    }
   }
 
   @Override
@@ -66,15 +75,18 @@ public class NewMainActivity extends ReactActivity {
     Log.e("Test", "onNewIntent: ");
     if (intent != null) {
       String action = intent.getAction();
-      switch (action) {
-      case "com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE":
-        if (!intent.hasExtra(USED_INTENT)) {
-          handleAuthorizationResponse(intent);
-          intent.putExtra(USED_INTENT, true);
+      Log.i("Back To APP", "onNewIntent: "+action);
+      if(action != null) {
+        switch (action) {
+          case "com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE":
+            if (!intent.hasExtra(USED_INTENT)) {
+              handleAuthorizationResponse(intent);
+              intent.putExtra(USED_INTENT, true);
+            }
+            break;
+          default:
+            // do nothing
         }
-        break;
-      default:
-        // do nothing
       }
     }
   }
@@ -136,7 +148,7 @@ public class NewMainActivity extends ReactActivity {
     // return strBuilder.toString();
   }
 
-  public void doApiCall(TokenResponse tokenResponse, AuthorizationService service) {
+  public void doApiCall(final TokenResponse tokenResponse, final AuthorizationService service) {
     try {
       RNGoogleAppauthModule.authState.performActionWithFreshTokens(service, new AuthState.AuthStateAction() {
         @Override
@@ -212,6 +224,12 @@ public class NewMainActivity extends ReactActivity {
     }
   }
 
+  private void persistAuthState(@NonNull AuthState authState) {
+    getSharedPreferences(RNGoogleAppauthModule.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+            .putString(RNGoogleAppauthModule.AUTH_STATE, authState.toJsonString())
+            .commit();
+  }
+
   private void handleAuthorizationResponse(@NonNull Intent intent) {
     AuthorizationResponse response = AuthorizationResponse.fromIntent(intent);
     AuthorizationException error = AuthorizationException.fromIntent(intent);
@@ -229,6 +247,7 @@ public class NewMainActivity extends ReactActivity {
               } else {
                 if (tokenResponse != null) {
                   RNGoogleAppauthModule.authState.update(tokenResponse, exception);
+                  persistAuthState(RNGoogleAppauthModule.authState);
                   Log.i("xyz", tokenResponse.toJsonString());
                   Log.i("Test", String.format("Token Response [ Access Token: %s, ID Token: %s ]",
                       tokenResponse.accessToken, tokenResponse.refreshToken));
