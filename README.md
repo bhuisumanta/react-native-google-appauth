@@ -1,5 +1,6 @@
 
 # react-native-google-appauth
+This is a react native library for `Android` to integrate google sign in with youtube brand account using AppAuth
 
 ## Getting started
 
@@ -71,17 +72,49 @@ Add this in your `android/app/src/main/AndroidManifest.xml`
 
 ## Usage
 ```javascript
-import RNGoogleAppauth from 'react-native-google-appauth';
+import { configure, signIn, signOut } from 'react-native-google-appauth';
 
-// TODO: What to do with the module?
-
-processGoogleSignIn = async () => {
-  try {
-      const gtt = await GoogleAppauth.signIn();
-      console.log('Success response', JSON.parse(gtt));
-    } catch (err) {
-      console.log('ERROR ', err);
+componentDidMount() {
+  const authInstance = configure({
+    redirectUrl: "[YOUR_APP_ID]:/oauth2callback",
+    clientId: "[YOUR_CLIENT_ID]", // Generate from https://console.developers.google.com/ if you don't have
+    scopes: ["https://www.googleapis.com/auth/youtube.readonly", "openid", "email", "profile"],
+    additionalParameters: {} // Comming soon
+  });
+  authInstance.then((data) => {
+    console.log("User LoggedIn", data);
+    if (data && (typeof data === "object") && data.id_token) {
+      // this.setState({ signedIn: true, user: data });
+      // DO SOMETHING WITH USER INFO
+    } else {
+      // USER NOT LOGGED IN OR SESSION EXPIRED
     }
+  })
+  .catch((err) => {
+    console.log("LoggedInError", err);
+  });
+}
+
+handleLogin = async () => {
+  try {
+    const data = await signIn();
+    console.log('Login success ----', data);
+    // if (data && (typeof data === "object") && data.id_token) {
+    //   this.setState({ signedIn: true, user: data });
+    // }
+
+    // DO SOMETHING WITH USER INFO
+  } catch (err) {
+    console.log('ERROR ----', err);
+  }
+}
+
+handleLogOut = async () => {
+  const logout = await signOut();
+  if (logout && (typeof logout === "object") && logout.status) {
+    // this.setState({ signedIn: false, user: {} });
+    // USER SUCCESSFULLY LOGGEDOUT
+  }
 }
 
 .....
@@ -90,10 +123,10 @@ render() {
   return (
     .....
     <Button
-      onPress={this.processGoogleSignIn}
-      title="SignIn"
+      onPress={this.handleLogin}
+      title="Sign in by Google"
       color="#841584"
-      accessibilityLabel="Click Me to signIn"
+      accessibilityLabel="Click Me to login"
     />
   )
 }
