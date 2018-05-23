@@ -47,6 +47,7 @@ public class NewMainActivity extends ReactActivity {
 
   private static final String USED_INTENT = "USED_INTENT";
   private boolean activityOpened = false;
+  private AuthorizationService service = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class NewMainActivity extends ReactActivity {
 
   @Override
   public void onNewIntent(Intent intent) {
+    activityOpened = false;
     super.onNewIntent(intent);
     Log.e("Test", "onNewIntent: ");
     if (intent != null) {
@@ -236,7 +238,7 @@ public class NewMainActivity extends ReactActivity {
     RNGoogleAppauthModule.authState = new AuthState(response, error);
     if (response != null) {
       Log.i("Test", String.format("Handled Authorization Response %s ", RNGoogleAppauthModule.authState.toJsonString()));
-      final AuthorizationService service = new AuthorizationService(this);
+      service = new AuthorizationService(this);
       service.performTokenRequest(response.createTokenExchangeRequest(),
           new AuthorizationService.TokenResponseCallback() {
             @Override
@@ -252,7 +254,7 @@ public class NewMainActivity extends ReactActivity {
                   Log.i("Test", String.format("Token Response [ Access Token: %s, ID Token: %s ]",
                       tokenResponse.accessToken, tokenResponse.refreshToken));
 
-                      doApiCall(tokenResponse, service);
+                  doApiCall(tokenResponse, service);
                 } else {
                   if (RNGoogleAppauthModule.promise != null) {
                     RNGoogleAppauthModule.promise.reject("ERR_UNEXPECTED_EXCEPTION",
@@ -273,5 +275,9 @@ public class NewMainActivity extends ReactActivity {
   protected void onDestroy() {
     super.onDestroy();
     Log.e("Test", "onDestroy: ");
+    if (service != null){
+      service.dispose();
+      service = null;
+    }
   }
 }

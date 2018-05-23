@@ -12,7 +12,9 @@
 Add this in your `android/app/src/main/AndroidManifest.xml`
 
 ```
-<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity" android:launchMode="singleInstance">
+<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity"
+    android:theme = "@android:style/Theme.Translucent.NoTitleBar"
+    android:launchMode="singleTask">
     <intent-filter>
         <action android:name="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/>
         <category android:name="android.intent.category.DEFAULT"/>
@@ -48,7 +50,9 @@ Add this in your `android/app/src/main/AndroidManifest.xml`
   	```
 4. Add this in your `android/app/src/main/AndroidManifest.xml`
 ```
-<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity" android:launchMode="singleInstance">
+<activity android:name="com.bidchat.reactnative.appauth.NewMainActivity"
+    android:theme = "@android:style/Theme.Translucent.NoTitleBar"
+    android:launchMode="singleTask">
     <intent-filter>
         <action android:name="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/>
         <category android:name="android.intent.category.DEFAULT"/>
