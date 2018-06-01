@@ -48,6 +48,7 @@ public class NewMainActivity extends ReactActivity {
   private static final String USED_INTENT = "USED_INTENT";
   private boolean activityOpened = false;
   private AuthorizationService service = null;
+  private AuthorizationService authorizationService = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class NewMainActivity extends ReactActivity {
           Uri.parse("https://accounts.google.com/o/oauth2/v2/auth") /* auth endpoint */,
           Uri.parse("https://www.googleapis.com/oauth2/v4/token") /* token endpoint */
       );
-      AuthorizationService authorizationService = new AuthorizationService(getApplicationContext());
+      authorizationService = new AuthorizationService(NewMainActivity.this);
       String clientId = RNGoogleAppauthModule.clientId;
       Uri redirectUri = Uri.parse(RNGoogleAppauthModule.redirectUrl);
       AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(serviceConfiguration, clientId,
@@ -126,7 +127,7 @@ public class NewMainActivity extends ReactActivity {
       authorizationService.performAuthorizationRequest(request, pendingIntent);
     } catch (Exception exception) {
       if (RNGoogleAppauthModule.promise != null) {
-        RNGoogleAppauthModule.promise.reject("ERR_UNEXPECTED_EXCEPTION", "Error with Google authentication");
+        RNGoogleAppauthModule.promise.reject("ERR_UNEXPECTED_EXCEPTION", "Error with Google authentication : "+exception.getMessage());
       }
       finish();
     }
@@ -273,11 +274,15 @@ public class NewMainActivity extends ReactActivity {
 
   @Override
   protected void onDestroy() {
-    super.onDestroy();
     Log.e("Test", "onDestroy: ");
     if (service != null){
       service.dispose();
       service = null;
     }
+
+    if (authorizationService != null){
+      authorizationService.dispose();
+    }
+    super.onDestroy();
   }
 }

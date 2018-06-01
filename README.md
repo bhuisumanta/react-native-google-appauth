@@ -76,7 +76,7 @@ import { configure, signIn, signOut } from 'react-native-google-appauth';
 
 componentDidMount() {
   const authInstance = configure({
-    redirectUrl: "[YOUR_APP_ID]:/oauth2callback",
+    redirectUrl: "com.bidchat.reactnative.appauth:/oauth2callback",
     clientId: "[YOUR_CLIENT_ID]", // Generate from https://console.developers.google.com/ if you don't have
     scopes: ["https://www.googleapis.com/auth/youtube.readonly", "openid", "email", "profile"],
     additionalParameters: {} // Comming soon
@@ -132,4 +132,3 @@ render() {
 }
 
 ```
-  

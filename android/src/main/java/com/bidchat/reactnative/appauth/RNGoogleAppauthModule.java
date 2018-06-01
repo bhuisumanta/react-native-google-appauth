@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -84,8 +85,15 @@ public class RNGoogleAppauthModule extends ReactContextBaseJavaModule {
   public void signIn(Promise promise) {
     try {
       RNGoogleAppauthModule.promise = promise;
-      Intent intent = new Intent(this.reactContext, NewMainActivity.class);
-      this.reactContext.startActivity(intent);
+//      Intent intent = new Intent(this.reactContext, NewMainActivity.class);
+//      this.reactContext.startActivity(intent);
+      Activity activity = getCurrentActivity();
+      if (activity != null) {
+        Intent intent = new Intent(activity, NewMainActivity.class);
+        activity.startActivity(intent);
+      }else {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", "no activity found");
+      }
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
