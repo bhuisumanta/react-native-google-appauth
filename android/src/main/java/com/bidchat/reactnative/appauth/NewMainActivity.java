@@ -62,6 +62,8 @@ public class NewMainActivity extends ReactActivity {
     if(activityOpened == true) {
       Log.e("Test", "onResume FINISH: ");
       activityOpened = false;
+      RNGoogleAppauthModule.promise.reject("ERR_UNEXPECTED_EXCEPTION",
+              "Google authentication cancelled");
       finish();
       super.onResume();
     } else {
