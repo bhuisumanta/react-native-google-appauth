@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-appauth",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "This is a react native library to integrate google sign in with youtube brand account using AppAuth",
   "main": "index.js",
   "scripts": {
